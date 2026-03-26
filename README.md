@@ -39,6 +39,7 @@ Visualize predictions.
 ### Register Number:212224240114
 ```python
 
+#Model definition
 class BiLSTMTagger(nn.Module):
   def __init__(self, vocab_size, tagset_size, embedding_dim = 50, hidden_dim = 100):
     super(BiLSTMTagger, self).__init__()
@@ -52,11 +53,10 @@ class BiLSTMTagger(nn.Module):
     x = self.dropout(x)
     x, _ = self.lstm(x)
     return self.fc(x)
-
-
+        
 model = BiLSTMTagger(len(word2idx)+1, len(tag2idx)).to(device)
 loss_fn = nn.CrossEntropyLoss()
-optimizer = torch.optim.Adam(model.parameters(), lr=0.001)
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001) 
 
 # Training and Evaluation Functions
 def train_model(model, train_loader, test_loader, loss_fn, optimizer, epochs=3):
@@ -85,7 +85,7 @@ def train_model(model, train_loader, test_loader, loss_fn, optimizer, epochs=3):
           loss = loss_fn(outputs.view(-1, len(tag2idx)), labels.view(-1))
           val_loss += loss.item()
       val_losses.append(val_loss)
-      print(f"Epoch {epoch+1}: Train Loss = {total_loss:.4f}, Val Loss = {val_loss:.4f}")          
+      print(f"Epoch {epoch+1}: Train Loss = {total_loss:.4f}, Val Loss = {val_loss:.4f}")
 
     return train_losses, val_losses
 
@@ -93,9 +93,14 @@ def train_model(model, train_loader, test_loader, loss_fn, optimizer, epochs=3):
 ```
 ## OUTPUT
 
-<img width="899" height="619" alt="image" src="https://github.com/user-attachments/assets/0e87a667-9371-4eb2-895e-64242f07f2e3" />
+## Training Loss, Validation Loss Vs Iteration Plot
 
-<img width="484" height="391" alt="image" src="https://github.com/user-attachments/assets/eb4a2e50-90f1-4369-aae3-1a8df42a63ad" />
+<img width="789" height="566" alt="image" src="https://github.com/user-attachments/assets/3597e40e-0e78-4e8e-a09b-e90fb045de43" />
+
+## Sample Text Prediction
+
+<img width="519" height="712" alt="image" src="https://github.com/user-attachments/assets/25449dc5-af0a-481d-af83-6187272578bb" />
+
 
 
 
